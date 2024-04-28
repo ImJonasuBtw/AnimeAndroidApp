@@ -1,0 +1,236 @@
+{
+  "animeSeries": [
+    {
+      "id": 1,
+      "title": "Naruto",
+      "releaseDate": "2002-10-03",
+      "genre": "Action",
+      "studio": "Pierrot",
+      "averageRating": 8.2,
+      "hasCompleted": true,
+      "image": "https://i.pinimg.com/564x/3a/8c/63/3a8c63737ae2d94f9d4f09f477e3df34.jpg"
+    },
+    {
+      "id": 2,
+      "title": "Attack on Titan",
+      "releaseDate": "2013-04-07",
+      "genre": "Action",
+      "studio": "Wit Studio",
+      "averageRating": 8.8,
+      "hasCompleted": true,
+      "image": "https://i.pinimg.com/564x/c4/cb/57/c4cb5734c7c94d3413efdaa3bca09a6d.jpg"
+    },
+    {
+      "id": 3,
+      "title": "My Hero Academia",
+      "releaseDate": "2016-04-03",
+      "genre": "Superhero",
+      "studio": "Bones",
+      "averageRating": 8.5,
+      "hasCompleted": false,
+      "image": "https://i.pinimg.com/564x/c9/e2/65/c9e265d73f71e7690d3d8e5739ac531a.jpg"
+    },
+    {
+      "id": 4,
+      "title": "One Piece",
+      "releaseDate": "1999-10-20",
+      "genre": "Adventure",
+      "studio": "Toei Animation",
+      "averageRating": 8.7,
+      "hasCompleted": false,
+      "image": "https://i.pinimg.com/564x/93/94/74/9394748d58e086d83ab1f55abaaff5c9.jpg"
+    },
+    {
+      "id": 5,
+      "title": "Fullmetal Alchemist: Brotherhood",
+      "releaseDate": "2009-04-05",
+      "genre": "Fantasy",
+      "studio": "Bones",
+      "averageRating": 9.1,
+      "hasCompleted": true,
+      "image": "https://i.pinimg.com/564x/15/f4/f2/15f4f236f264d5a9e42ceef49a347d35.jpg"
+    },
+    {
+      "id": 6,
+      "title": "Death Note",
+      "releaseDate": "2006-10-04",
+      "genre": "Thriller",
+      "studio": "Madhouse",
+      "averageRating": 8.6,
+      "hasCompleted": true,
+      "image": "https://i.pinimg.com/564x/c1/7d/af/c17daf0bf50f3c7bbdee8ddf05df5940.jpg"
+    },
+    {
+      "id": 7,
+      "title": "Sword Art Online",
+      "releaseDate": "2012-07-08",
+      "genre": "Action",
+      "studio": "A-1 Pictures",
+      "averageRating": 7.6,
+      "hasCompleted": true,
+      "image": "https://i.pinimg.com/564x/fc/7f/2b/fc7f2b50b4bd41d71ca17e5b67a70827.jpg"
+    },
+    {
+      "id": 8,
+      "title": "Steins;Gate",
+      "releaseDate": "2011-04-06",
+      "genre": "Sci-Fi",
+      "studio": "White Fox",
+      "averageRating": 9.1,
+      "hasCompleted": true,
+      "image": "https://i.pinimg.com/564x/3e/d0/84/3ed0849928323ed387555b4b8f4c7301.jpg"
+    },
+    {
+      "id": 9,
+      "title": "Tokyo Ghoul",
+      "releaseDate": "2014-07-04",
+      "genre": "Horror",
+      "studio": "Studio Pierrot",
+      "averageRating": 7.9,
+      "hasCompleted": true,
+      "image": "https://i.pinimg.com/564x/39/90/d9/3990d9a269712084403bd71e4a07563c.jpg"
+    },
+    {
+      "id": 10,
+      "title": "Demon Slayer",
+      "releaseDate": "2019-04-06",
+      "genre": "Action",
+      "studio": "ufotable",
+      "averageRating": 8.7,
+      "hasCompleted": false,
+      "image": "https://i.pinimg.com/736x/0f/a3/b3/0fa3b32515a4bfd3f0864db128d05795.jpg"
+    },
+    {
+      "id": 11,
+      "title": "Hunter x Hunter",
+      "releaseDate": "2011-10-02",
+      "genre": "Adventure",
+      "studio": "Madhouse",
+      "averageRating": 9.1,
+      "hasCompleted": false,
+      "image": "https://i.pinimg.com/564x/f2/e4/b8/f2e4b8b7eb8ca18a025c735dd81f9c79.jpg"
+    },
+    {
+      "id": 12,
+      "title": "Dragon Ball Z",
+      "releaseDate": "1989-04-26",
+      "genre": "Action",
+      "studio": "Toei Animation",
+      "averageRating": 8.7,
+      "hasCompleted": true,
+      "image": "https://i.pinimg.com/564x/bd/80/57/bd80571c1a2a97f75725d1ed04f4225c.jpg"
+    },
+    {
+      "id": 13,
+      "title": "Cowboy Bebop",
+      "releaseDate": "1998-04-03",
+      "genre": "Sci-Fi",
+      "studio": "Sunrise",
+      "averageRating": 8.9,
+      "hasCompleted": true,
+      "image": "https://i.pinimg.com/564x/72/78/2b/72782b4ae8728de96e3890e71bc94b27.jpg"
+    },
+    {
+      "id": 14,
+      "title": "Neon Genesis Evangelion",
+      "releaseDate": "1995-10-04",
+      "genre": "Mecha",
+      "studio": "Gainax",
+      "averageRating": 8.5,
+      "hasCompleted": true,
+      "image": "https://i.pinimg.com/564x/21/7f/66/217f66afd18b1de1e0bc6028a5c34151.jpg"
+    },
+    {
+      "id": 15,
+      "title": "The Promised Neverland",
+      "releaseDate": "2019-01-11",
+      "genre": "Thriller",
+      "studio": "CloverWorks",
+      "averageRating": 8.5,
+      "hasCompleted": true,
+      "image": "https://i.pinimg.com/564x/13/a9/6b/13a96b03c3e1d60bb526fe4de5c8a16b.jpg"
+    }
+  ],
+  "characters": [
+    {
+      "id": 1,
+      "name": "Naruto Uzumaki",
+      "role": "Protagonist",
+      "powerLevel": 95.5,
+      "specialAbility": "Rasengan",
+      "animeSerieId": 1
+    },
+    {
+      "id": 2,
+      "name": "Sasuke Uchiha",
+      "role": "Rival",
+      "powerLevel": 95.2,
+      "specialAbility": "Sharingan",
+      "animeSerieId": 1
+    },
+    {
+      "id": 3,
+      "name": "Eren Yeager",
+      "role": "Protagonist",
+      "powerLevel": 92.3,
+      "specialAbility": "Titan Transformation",
+      "animeSerieId": 2
+    },
+    {
+      "id": 4,
+      "name": "Izuku Midoriya",
+      "role": "Protagonist",
+      "powerLevel": 88.1,
+      "specialAbility": "One For All",
+      "animeSerieId": 3
+    },
+    {
+      "id": 5,
+      "name": "Katsuki Bakugo",
+      "role": "Rival",
+      "powerLevel": 87.0,
+      "specialAbility": "Explosion",
+      "animeSerieId": 3
+    },
+    {
+      "id": 6,
+      "name": "Monkey D. Luffy",
+      "role": "Protagonist",
+      "powerLevel": 93.4,
+      "specialAbility": "Gomu Gomu no Mi",
+      "animeSerieId": 4
+    },
+    {
+      "id": 7,
+      "name": "Edward Elric",
+      "role": "Protagonist",
+      "powerLevel": 89.5,
+      "specialAbility": "Alchemy",
+      "animeSerieId": 5
+    },
+    {
+      "id": 8,
+      "name": "Light Yagami",
+      "role": "Protagonist",
+      "powerLevel": 90.0,
+      "specialAbility": "Death Note",
+      "animeSerieId": 6
+    },
+    {
+      "id": 9,
+      "name": "Kirito",
+      "role": "Protagonist",
+      "powerLevel": 91.2,
+      "specialAbility": "Dual Wielding",
+      "animeSerieId": 7
+    },
+    {
+      "id": 10,
+      "name": "Rintarou Okabe",
+      "role": "Protagonist",
+      "powerLevel": 88.8,
+      "specialAbility": "Time Travel",
+      "animeSerieId": 8
+    }
+  ]
+}
