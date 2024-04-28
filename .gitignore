@@ -40,3 +40,10 @@ proguard-project.txt
 # Android Studio/IDEA
 *.iml
 .idea
+.idea/
+.idea/caches
+.idea/libraries
+.idea/modules.xml
+.idea/workspace.xml
+.idea/navEditor.xml
+.idea/assetWizardSettings.xml
