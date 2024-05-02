@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">UI2AnimeProject</string>
+    <string name="anime_genre">Genre</string>
+    <string name="anime_rating">Rating</string>
+    <string name="anime_characterAmount">Number of Characters</string>
+    <string name="button_previous">Previous</string>
+    <string name="button_next">Next</string>
+    <string name="character_powerlevel">Power Level</string>
+    <string name="character_specialability">Special Ability</string>
+
 </resources>

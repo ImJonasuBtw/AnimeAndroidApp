@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">UI2AnimeProject</string>
+    <string name="anime_genre">genre</string>
+    <string name="anime_rating">Beoordeling</string>
+    <string name="anime_characterAmount">Aantal Karakters</string>
+    <string name="button_previous">Vorige</string>
+    <string name="button_next">Volgende</string>
+    <string name="character_powerlevel">Kracht Niveau</string>
+    <string name="character_specialability">Speciale Kracht</string>
+</resources>
