@@ -1,5 +1,8 @@
 package com.kdg.ui2animeproject.model
 
+import androidx.annotation.DrawableRes
+import com.kdg.ui2animeproject.R
+
 data class AnimeSeries(
     val id: Int,
     val title: String,
@@ -8,7 +11,7 @@ data class AnimeSeries(
     val studio: String,
     val averageRating: Double,
     val hasCompleted: Boolean,
-    val image: String
+    @DrawableRes val image: Int
 )
 
 val animeSeriesList = listOf(
@@ -20,8 +23,29 @@ val animeSeriesList = listOf(
         "Pierrot",
         8.2,
         true,
-        "https://i.pinimg.com/564x/3a/8c/63/3a8c63737ae2d94f9d4f09f477e3df34.jpg"
+        R.drawable.naruto
     ),
+    AnimeSeries(
+        2,
+        "Attack on Titan",
+        "2013-04-07",
+        "Action",
+        "Wit Studio",
+        8.8,
+        true,
+        R.drawable.attackontitan
+    ),
+    AnimeSeries(
+        3,
+        "My Hero Academia",
+        "2016-04-03",
+        "Superhero",
+        "Bones",
+        8.5,
+        false,
+        R.drawable.bokuhero
+    ),
+
 
     )
 
