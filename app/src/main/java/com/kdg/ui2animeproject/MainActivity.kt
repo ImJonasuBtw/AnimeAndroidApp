@@ -19,6 +19,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -32,18 +33,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kdg.ui2animeproject.model.countCharactersByAnimeSeriesId
 import com.kdg.ui2animeproject.model.getAnimeSeries
 import com.kdg.ui2animeproject.model.getCharacters
-import com.kdg.ui2animeproject.ui.theme.UI2AnimeProjectTheme
+import com.kdg.ui2animeproject.ui.theme.AnimeAppTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            UI2AnimeProjectTheme {
+            AnimeAppTheme(dynamicColor = false) {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -64,6 +66,7 @@ fun DisplayAnimeSeries(modifier: Modifier = Modifier) {
     var currentIndex by remember { mutableIntStateOf(0) }
     val currentAnime = animeSeriesList[currentIndex]
 
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -72,11 +75,15 @@ fun DisplayAnimeSeries(modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+
         Text(
             text = currentAnime.title,
             style = MaterialTheme.typography.titleLarge,
-            modifier = Modifier.padding(bottom = 16.dp)
+            color = MaterialTheme.colorScheme.primary,
+            fontWeight = FontWeight.ExtraBold,
+            modifier = Modifier.padding(bottom = 16.dp),
         )
+
 
         Image(
             painter = painterResource(currentAnime.image),
@@ -92,16 +99,21 @@ fun DisplayAnimeSeries(modifier: Modifier = Modifier) {
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             Text(
-                text = stringResource(id = R.string.anime_genre, currentAnime.genre)+ ": ${currentAnime.genre}",
-                style = MaterialTheme.typography.bodyMedium
+                text = stringResource(id = R.string.anime_genre, currentAnime.genre) + ": ${currentAnime.genre}",
+                style = MaterialTheme.typography.bodyMedium,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.secondary
             )
             Text(
-                text = stringResource(id = R.string.anime_rating,currentAnime.averageRating) +": ${currentAnime.averageRating}",
-                style = MaterialTheme.typography.bodyMedium
+                text = stringResource(id = R.string.anime_rating, currentAnime.averageRating) + ": ${currentAnime.averageRating}",
+                style = MaterialTheme.typography.bodyMedium,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.tertiary
             )
         }
+
         Text(
-            text = stringResource(id = R.string.anime_characterAmount)+": ${countCharactersByAnimeSeriesId(currentAnime.id)}",
+            text = stringResource(id = R.string.anime_characterAmount) + ": ${countCharactersByAnimeSeriesId(currentAnime.id)}",
             style = MaterialTheme.typography.bodySmall,
             modifier = Modifier.padding(bottom = 5.dp)
         )
@@ -114,18 +126,26 @@ fun DisplayAnimeSeries(modifier: Modifier = Modifier) {
         ) {
             Button(
                 onClick = { currentIndex = (currentIndex - 1).coerceAtLeast(0) },
+                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                 modifier = Modifier.padding(horizontal = 10.dp, vertical = 8.dp)
             ) {
-                Text(text = stringResource(id= R.string.button_previous))
+                Text(
+                    text = stringResource(id = R.string.button_previous),
+                    color = MaterialTheme.colorScheme.onPrimary
+                )
             }
             Spacer(modifier = Modifier.width(24.dp))
             Button(
                 onClick = {
                     currentIndex = (currentIndex + 1).coerceAtMost(animeSeriesList.size - 1)
                 },
+                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                 modifier = Modifier.padding(horizontal = 10.dp, vertical = 8.dp)
             ) {
-                Text(text = stringResource(id = R.string.button_next))
+                Text(
+                    text = stringResource(id = R.string.button_next),
+                    color = MaterialTheme.colorScheme.onPrimary
+                )
             }
         }
         val characters = getCharacters().filter { it.animeSerieId == currentAnime.id }
@@ -142,28 +162,34 @@ fun DisplayAnimeSeries(modifier: Modifier = Modifier) {
                 ) {
                     Text(
                         text = character.name,
-                        style = MaterialTheme.typography.bodyMedium
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontWeight = FontWeight.ExtraBold,
+                        color = MaterialTheme.colorScheme.primary
                     )
                     Row(modifier = Modifier.fillMaxWidth()) {
                         Text(
                             text = stringResource(id = R.string.character_powerlevel),
-                            style = MaterialTheme.typography.bodySmall
+                            style = MaterialTheme.typography.bodySmall,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.secondary
                         )
                         Text(
                             text = ": ${character.powerLevel}",
-                            style = MaterialTheme.typography.bodySmall
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSecondary
                         )
                     }
                     Row(modifier = Modifier.fillMaxWidth()) {
                         Text(
                             text = stringResource(id = R.string.character_specialability) + ": ",
-                            style = MaterialTheme.typography.bodySmall
+                            style = MaterialTheme.typography.bodySmall,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.secondary
                         )
-                    }
-                    Row(modifier = Modifier.fillMaxWidth()) {
                         Text(
-                            text = character.specialAbility,
-                            style = MaterialTheme.typography.bodySmall
+                            text =  character.specialAbility,
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSecondary
                         )
                     }
                 }
@@ -171,5 +197,4 @@ fun DisplayAnimeSeries(modifier: Modifier = Modifier) {
         }
     }
 }
-
 

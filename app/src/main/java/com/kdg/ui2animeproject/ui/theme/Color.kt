@@ -2,10 +2,16 @@ package com.kdg.ui2animeproject.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple80 = Color(0xFFD0BCFF)
-val PurpleGrey80 = Color(0xFFCCC2DC)
-val Pink80 = Color(0xFFEFB8C8)
+// Darky theme
+val VividPurple = Color(0xFF6200EE)
+val VividCyan = Color(0xFF03DAC5)
+val VividPink = Color(0xFFE91E63)
+val AlmostBlack = Color(0xFF121212)
+val DarkGrey = Color(0xFF1E1E1E)
 
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
-val Pink40 = Color(0xFF7D5260)
+// Lightty theme
+val SoftPurple = Color(0xFFBB86FC)
+val SoftCyan = Color(0xFF03CAB8)
+val SoftPink = Color(0xFFFF6090)
+val AlmostPinkPink = Color(0xFFD7D2D8)
+val VeryLightGrey = Color(0xFFF2F2F2)
