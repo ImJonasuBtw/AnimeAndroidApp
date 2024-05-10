@@ -8,7 +8,12 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -17,8 +22,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.kdg.ui2animeproject.model.*
 import com.kdg.ui2animeproject.ui.theme.AnimeAppTheme
 
@@ -42,10 +49,12 @@ class MainActivity : ComponentActivity() {
 
 @Preview
 @Composable
-fun DisplayAnimeSeries(modifier: Modifier = Modifier) {
-    val animeSeriesList = getAnimeSeries()
-    var currentIndex by remember { mutableIntStateOf(0) }
-    val currentAnime = animeSeriesList[currentIndex]
+fun DisplayAnimeSeries(
+    modifier: Modifier = Modifier,
+    animeSeriesViewModel: AnimeSeriesViewModel = viewModel()
+) {
+    val animeSeriesList = animeSeriesViewModel.animeSeries
+    val currentAnime = animeSeriesList[animeSeriesViewModel.currentIndex]
 
 
     Column(
@@ -117,7 +126,7 @@ fun DisplayAnimeSeries(modifier: Modifier = Modifier) {
         ) {
             Button(
                 onClick = {
-                    currentIndex = (currentIndex - 1 + animeSeriesList.size) % animeSeriesList.size
+                    animeSeriesViewModel.selectPrevious()
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                 modifier = Modifier.padding(horizontal = 10.dp, vertical = 8.dp)
@@ -127,10 +136,12 @@ fun DisplayAnimeSeries(modifier: Modifier = Modifier) {
                     color = MaterialTheme.colorScheme.onPrimary
                 )
             }
-            Spacer(modifier = Modifier.width(24.dp))
+            Spacer(modifier = Modifier.width(10.dp))
+            DeleteCurrentAnimeSeries(animeSeriesViewModel)
+            Spacer(modifier = Modifier.width(10.dp))
             Button(
                 onClick = {
-                    currentIndex = (currentIndex + 1) % animeSeriesList.size
+                    animeSeriesViewModel.selectNext()
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                 modifier = Modifier.padding(horizontal = 10.dp, vertical = 8.dp)
@@ -141,6 +152,7 @@ fun DisplayAnimeSeries(modifier: Modifier = Modifier) {
                 )
             }
         }
+
         val characters = getCharacters().filter { it.animeSerieId == currentAnime.id }
         LazyRow(
             modifier = Modifier.fillMaxWidth(),
@@ -188,6 +200,182 @@ fun DisplayAnimeSeries(modifier: Modifier = Modifier) {
                 }
             }
         }
+
+        if (animeSeriesViewModel.showDeleteErrorDialog) {
+            AlertDialog(
+                onDismissRequest = { animeSeriesViewModel.showDeleteErrorDialog = false },
+                title = { Text(text = "Deletion Not Allowed") },
+                text = { Text("You cannot delete the last anime. At least one must remain :)") },
+                confirmButton = {
+                    Button(onClick = { animeSeriesViewModel.showDeleteErrorDialog = false }) {
+                        Text("OK")
+                    }
+                }
+            )
+        }
+
+        Row {
+            AddAnimeSeriesDialog(animeSeriesViewModel)
+            EditAnimeDialog(animeSeriesViewModel)
+        }
     }
 }
 
+@Composable
+fun AddAnimeSeriesDialog(viewModel: AnimeSeriesViewModel) {
+    FloatingActionButton(
+        onClick = { viewModel.toggleDialog(true) },
+        modifier = Modifier.padding(horizontal = 10.dp, vertical = 8.dp),
+        containerColor = MaterialTheme.colorScheme.primary
+    ) {
+        Icon(
+            imageVector = Icons.Default.Add,
+            contentDescription = "Add New Series",
+            tint = MaterialTheme.colorScheme.onPrimary
+        )
+    }
+
+    if (viewModel.showDialog) {
+        AlertDialog(
+            onDismissRequest = { viewModel.toggleDialog(false) },
+            title = { Text("Add New Anime Series") },
+            text = {
+                Column {
+                    TextField(
+                        value = viewModel.title,
+                        onValueChange = { viewModel.title = it },
+                        label = { Text("Title") }
+                    )
+                    TextField(
+                        value = viewModel.genre,
+                        onValueChange = { viewModel.genre = it },
+                        label = { Text("Genre") }
+                    )
+                    TextField(
+                        value = viewModel.studio,
+                        onValueChange = { viewModel.studio = it },
+                        label = { Text("Studio") }
+                    )
+                    TextField(
+                        value = viewModel.releaseDate,
+                        onValueChange = { viewModel.releaseDate = it },
+                        label = { Text("Release Date") }
+                    )
+                    TextField(
+                        value = viewModel.rating.toString(),
+                        onValueChange = {
+                            viewModel.rating = it.toDoubleOrNull() ?: viewModel.rating
+                        },
+                        label = { Text("Average Rating") },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal)
+                    )
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Checkbox(
+                            checked = viewModel.completed,
+                            onCheckedChange = { viewModel.completed = it }
+                        )
+                        Text("Completed")
+                    }
+                }
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        viewModel.createNewAnimeSeries()
+                        viewModel.toggleDialog(false)
+                    }
+                ) {
+                    Text("Add")
+                }
+            },
+            dismissButton = {
+                Button(onClick = { viewModel.toggleDialog(false) }) {
+                    Text("Cancel")
+                }
+            }
+        )
+    }
+}
+
+@Composable
+fun DeleteCurrentAnimeSeries(viewModel: AnimeSeriesViewModel) {
+    Button(
+        onClick = { viewModel.deleteCurrentAnimeSeries() },
+        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error),
+        modifier = Modifier.padding(horizontal = 10.dp, vertical = 8.dp)
+    ) {
+        Icon(
+            imageVector = Icons.Default.Delete,
+            contentDescription = "Add New Series",
+            tint = MaterialTheme.colorScheme.onPrimary
+        )
+    }
+}
+
+@Composable
+fun EditAnimeDialog(viewModel: AnimeSeriesViewModel) {
+    FloatingActionButton(
+        onClick = { viewModel.startEditing() },
+        modifier = Modifier.padding(horizontal = 10.dp, vertical = 8.dp),
+        containerColor = MaterialTheme.colorScheme.primary
+    ) {
+        Icon(
+            imageVector = Icons.Default.Edit,
+            contentDescription = "Add New Series",
+            tint = MaterialTheme.colorScheme.onPrimary
+        )
+    }
+    if (viewModel.isEditing) {
+        AlertDialog(
+            onDismissRequest = { viewModel.cancelEditing() },
+            title = { Text("Edit Anime Series") },
+            text = {
+                Column {
+                    TextField(
+                        value = viewModel.title,
+                        onValueChange = { viewModel.title = it },
+                        label = { Text("Title") }
+                    )
+                    TextField(
+                        value = viewModel.genre,
+                        onValueChange = { viewModel.genre = it },
+                        label = { Text("Genre") }
+                    )
+                    TextField(
+                        value = viewModel.studio,
+                        onValueChange = { viewModel.studio = it },
+                        label = { Text("Studio") }
+                    )
+                    TextField(
+                        value = viewModel.releaseDate,
+                        onValueChange = { viewModel.releaseDate = it },
+                        label = { Text("Release Date") }
+                    )
+                    TextField(
+                        value = viewModel.rating.toString(),
+                        onValueChange = { viewModel.rating = it.toDoubleOrNull() ?: viewModel.rating },
+                        label = { Text("Average Rating") },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal)
+                    )
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Checkbox(
+                            checked = viewModel.completed,
+                            onCheckedChange = { viewModel.completed = it }
+                        )
+                        Text("Completed")
+                    }
+                }
+            },
+            confirmButton = {
+                Button(onClick = { viewModel.saveChanges() }) {
+                    Text("Save")
+                }
+            },
+            dismissButton = {
+                Button(onClick = { viewModel.cancelEditing() }) {
+                    Text("Cancel")
+                }
+            }
+        )
+    }
+}

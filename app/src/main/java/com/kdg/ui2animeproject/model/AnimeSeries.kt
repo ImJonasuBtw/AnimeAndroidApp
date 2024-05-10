@@ -24,10 +24,6 @@ fun createAnimeSeries(animeSeries: AnimeSeries) {
     animeSeriesList.add(animeSeries)
 }
 
-fun readAnimeSeries(id: Int): AnimeSeries? {
-    return animeSeriesList.find { it.id == id }
-}
-
 fun updateAnimeSeries(updatedAnimeSeries: AnimeSeries) {
     val index = animeSeriesList.indexOfFirst { it.id == updatedAnimeSeries.id }
     if (index != -1) {
