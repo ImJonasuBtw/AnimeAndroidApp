@@ -4,30 +4,13 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -36,9 +19,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.kdg.ui2animeproject.model.countCharactersByAnimeSeriesId
-import com.kdg.ui2animeproject.model.getAnimeSeries
-import com.kdg.ui2animeproject.model.getCharacters
+import com.kdg.ui2animeproject.model.*
 import com.kdg.ui2animeproject.ui.theme.AnimeAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -99,13 +80,19 @@ fun DisplayAnimeSeries(modifier: Modifier = Modifier) {
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             Text(
-                text = stringResource(id = R.string.anime_genre, currentAnime.genre) + ": ${currentAnime.genre}",
+                text = stringResource(
+                    id = R.string.anime_genre,
+                    currentAnime.genre
+                ) + ": ${currentAnime.genre}",
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.secondary
             )
             Text(
-                text = stringResource(id = R.string.anime_rating, currentAnime.averageRating) + ": ${currentAnime.averageRating}",
+                text = stringResource(
+                    id = R.string.anime_rating,
+                    currentAnime.averageRating
+                ) + ": ${currentAnime.averageRating}",
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.tertiary
@@ -113,7 +100,11 @@ fun DisplayAnimeSeries(modifier: Modifier = Modifier) {
         }
 
         Text(
-            text = stringResource(id = R.string.anime_characterAmount) + ": ${countCharactersByAnimeSeriesId(currentAnime.id)}",
+            text = stringResource(id = R.string.anime_characterAmount) + ": ${
+                countCharactersByAnimeSeriesId(
+                    currentAnime.id
+                )
+            }",
             style = MaterialTheme.typography.bodySmall,
             modifier = Modifier.padding(bottom = 5.dp)
         )
@@ -125,7 +116,9 @@ fun DisplayAnimeSeries(modifier: Modifier = Modifier) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Button(
-                onClick = { currentIndex = (currentIndex - 1).coerceAtLeast(0) },
+                onClick = {
+                    currentIndex = (currentIndex - 1 + animeSeriesList.size) % animeSeriesList.size
+                },
                 colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                 modifier = Modifier.padding(horizontal = 10.dp, vertical = 8.dp)
             ) {
@@ -137,7 +130,7 @@ fun DisplayAnimeSeries(modifier: Modifier = Modifier) {
             Spacer(modifier = Modifier.width(24.dp))
             Button(
                 onClick = {
-                    currentIndex = (currentIndex + 1).coerceAtMost(animeSeriesList.size - 1)
+                    currentIndex = (currentIndex + 1) % animeSeriesList.size
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                 modifier = Modifier.padding(horizontal = 10.dp, vertical = 8.dp)
@@ -187,7 +180,7 @@ fun DisplayAnimeSeries(modifier: Modifier = Modifier) {
                             color = MaterialTheme.colorScheme.secondary
                         )
                         Text(
-                            text =  character.specialAbility,
+                            text = character.specialAbility,
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSecondary
                         )
