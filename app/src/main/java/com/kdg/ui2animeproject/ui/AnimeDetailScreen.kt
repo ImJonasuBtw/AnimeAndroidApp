@@ -131,7 +131,7 @@ fun AnimeDetailScreen(
 
             Row {
                 EditAnimeDialog(animeSeriesViewModel)
-                DeleteCurrentAnimeSeries(animeSeriesViewModel)
+                DeleteCurrentAnimeSeries(animeSeriesViewModel, series.id)
             }
 
 
@@ -205,9 +205,9 @@ fun AnimeDetailScreen(
 
 
 @Composable
-fun DeleteCurrentAnimeSeries(viewModel: AnimeSeriesViewModel) {
+fun DeleteCurrentAnimeSeries(viewModel: AnimeSeriesViewModel,animeSeriesId: Int) {
     Button(
-        onClick = { viewModel.deleteCurrentAnimeSeries() },
+        onClick = { viewModel.deleteAnimeSeriesById(animeSeriesId) },
         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error),
         modifier = Modifier.padding(horizontal = 10.dp, vertical = 8.dp)
     ) {

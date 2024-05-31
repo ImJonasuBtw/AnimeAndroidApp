@@ -70,8 +70,6 @@ fun AnimeNav(
     val currentScreen = AnimeScreen.values().find { it.route == currentRoute } ?: AnimeScreen.Start
 
 
-
-
     Scaffold(
         topBar = {
             AnimeAppBar(

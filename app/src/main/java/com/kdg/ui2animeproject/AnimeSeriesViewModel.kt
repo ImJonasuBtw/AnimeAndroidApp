@@ -27,6 +27,7 @@ class AnimeSeriesViewModel : ViewModel() {
     var releaseDate by mutableStateOf("")
     var rating by mutableDoubleStateOf(0.0)
     var completed by mutableStateOf(false)
+    var nextId = animeSeries.size+1
 
     fun selectPrevious() {
         currentIndex = (currentIndex - 1 + animeSeries.size) % animeSeries.size
@@ -45,7 +46,7 @@ class AnimeSeriesViewModel : ViewModel() {
 
     fun createNewAnimeSeries() {
         val newSeries = AnimeSeries(
-            id =animeSeries.size+1,
+            id =nextId,
             title = title,
             releaseDate = releaseDate,
             genre = genre,
@@ -54,6 +55,7 @@ class AnimeSeriesViewModel : ViewModel() {
             hasCompleted = completed,
             image = R.drawable.placeholderimage
         )
+        nextId++
         createAnimeSeries(newSeries)
         animeSeries = getAnimeSeries()
 
@@ -66,13 +68,12 @@ class AnimeSeriesViewModel : ViewModel() {
         Log.d("AnimeViewModel", "New Anime added: Title: $title, Id: ${newSeries.id}")
     }
 
-    fun deleteCurrentAnimeSeries() {
+    fun deleteAnimeSeriesById(animeSeriesId: Int) {
         if (animeSeries.size > 1) {
-            val currentSeriesId = animeSeries[currentIndex].id
-            deleteAnimeSeries(currentSeriesId)
+            deleteAnimeSeries(animeSeriesId)
             animeSeries = getAnimeSeries()
             currentIndex = currentIndex.coerceIn(0, animeSeries.size - 1)
-            Log.d("AnimeViewModel", "Deleted Anime with Id: $currentSeriesId")
+            Log.d("AnimeViewModel", "Deleted Anime with Id: $animeSeriesId")
         } else {
             showDeleteErrorDialog = true
             Log.d("AnimeViewModel", "Deletion not allowed: Only one series left.")
