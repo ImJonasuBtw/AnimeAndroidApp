@@ -7,5 +7,7 @@
     <string name="button_next">Next</string>
     <string name="character_powerlevel">Power Level</string>
     <string name="character_specialability">Special Ability</string>
+    <string name="anime_detail">Anime Detail</string>
+    <string name="release_date">Release Date</string>
 
 </resources>

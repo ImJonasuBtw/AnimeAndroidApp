@@ -8,4 +8,6 @@
     <string name="button_next">Volgende</string>
     <string name="character_powerlevel">Kracht Niveau</string>
     <string name="character_specialability">Speciale Kracht</string>
+    <string name="anime_detail">Anime Detail</string>
+    <string name="release_date">Datum Uitgekomen</string>
 </resources>
