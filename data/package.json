@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "json-server": "^1.0.0-beta.0"
+  },
+  "scripts": {
+    "start": "json-server --host 127.0.0.1 db.json"
+  }
+}
