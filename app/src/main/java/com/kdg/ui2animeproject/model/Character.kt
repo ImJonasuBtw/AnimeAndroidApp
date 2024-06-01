@@ -1,7 +1,7 @@
 package com.kdg.ui2animeproject.model
+import kotlinx.serialization.Serializable
 
-import com.kdg.ui2animeproject.Data.AnimeDataSource.charactersList
-
+@Serializable
 data class Character(
     val id: Int,
     val name: String,
@@ -12,11 +12,3 @@ data class Character(
 )
 
 
-fun getCharacters(): Array
-<Character> {
-    return charactersList.toTypedArray()
-}
-
-fun countCharactersByAnimeSeriesId(animeSeriesId: Int): Int {
-    return charactersList.count { it.animeSerieId == animeSeriesId }
-}

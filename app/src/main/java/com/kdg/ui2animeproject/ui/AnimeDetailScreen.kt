@@ -41,8 +41,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavBackStackEntry
 import com.kdg.ui2animeproject.AnimeSeriesViewModel
 import com.kdg.ui2animeproject.R
-import com.kdg.ui2animeproject.model.countCharactersByAnimeSeriesId
-import com.kdg.ui2animeproject.model.getCharacters
+
 
 @Composable
 fun AnimeDetailScreen(
@@ -82,27 +81,27 @@ fun AnimeDetailScreen(
                 fontWeight = FontWeight.ExtraBold,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
-            Image(
-                painter = painterResource(series.image),
-                contentDescription = "Image of ${series.title}",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 8.dp)
-                    .heightIn(max = 475.dp)
-            )
+            /* Image(
+                 painter = painterResource(series.image),
+                 contentDescription = "Image of ${series.title}",
+                 contentScale = ContentScale.Crop,
+                 modifier = Modifier
+                     .fillMaxWidth()
+                     .padding(bottom = 8.dp)
+                     .heightIn(max = 475.dp)
+             )*/
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
                 Text(
-                    text = stringResource(id = R.string.anime_genre)+" : ${series.genre}",
+                    text = stringResource(id = R.string.anime_genre) + " : ${series.genre}",
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.secondary
                 )
                 Text(
-                    text = stringResource(id = R.string.anime_rating)+" : ${series.averageRating}",
+                    text = stringResource(id = R.string.anime_rating) + " : ${series.averageRating}",
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.tertiary
@@ -114,14 +113,14 @@ fun AnimeDetailScreen(
                 modifier = Modifier.padding(bottom = 5.dp)
             )
             Text(
-                text = stringResource(id = R.string.release_date)+" : ${series.releaseDate}",
+                text = stringResource(id = R.string.release_date) + " : ${series.releaseDate}",
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(bottom = 5.dp)
             )
 
             Text(
                 text = stringResource(id = R.string.anime_characterAmount) + ": ${
-                    countCharactersByAnimeSeriesId(
+                    animeSeriesViewModel.countCharactersByAnimeSeriesId(
                         series.id
                     )
                 }",
@@ -135,7 +134,8 @@ fun AnimeDetailScreen(
             }
 
 
-            val characters = getCharacters().filter { val b = it.animeSerieId == series.id
+            val characters = animeSeriesViewModel.characters.filter {
+                val b = it.animeSerieId == series.id
                 b
             }
             LazyRow(
@@ -205,7 +205,7 @@ fun AnimeDetailScreen(
 
 
 @Composable
-fun DeleteCurrentAnimeSeries(viewModel: AnimeSeriesViewModel,animeSeriesId: Int) {
+fun DeleteCurrentAnimeSeries(viewModel: AnimeSeriesViewModel, animeSeriesId: Int) {
     Button(
         onClick = { viewModel.deleteAnimeSeriesById(animeSeriesId) },
         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error),
@@ -260,7 +260,9 @@ fun EditAnimeDialog(viewModel: AnimeSeriesViewModel) {
                     )
                     TextField(
                         value = viewModel.rating.toString(),
-                        onValueChange = { viewModel.rating = it.toDoubleOrNull() ?: viewModel.rating },
+                        onValueChange = {
+                            viewModel.rating = it.toDoubleOrNull() ?: viewModel.rating
+                        },
                         label = { Text("Average Rating") },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal)
                     )

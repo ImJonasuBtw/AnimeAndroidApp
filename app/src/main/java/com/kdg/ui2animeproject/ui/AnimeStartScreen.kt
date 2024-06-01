@@ -39,48 +39,59 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.kdg.ui2animeproject.AnimeSeriesViewModel
+import com.kdg.ui2animeproject.AnimeUiState
 import com.kdg.ui2animeproject.R
 import com.kdg.ui2animeproject.model.AnimeSeries
 
 @Composable
 fun StartScreen(
+    animeUiState: AnimeUiState,
     navController: NavController,
-    animeSeriesViewModel: AnimeSeriesViewModel = viewModel()
+    animeSeriesViewModel: AnimeSeriesViewModel = viewModel(factory = AnimeSeriesViewModel.Factory)
 ) {
-    val animeSeriesList = animeSeriesViewModel.animeSeries
+    when (animeUiState) {
+        is AnimeUiState.Loading -> Text("Loading")
+        is AnimeUiState.Error -> Text("Error")
+        is AnimeUiState.Success -> animeUiState.animes.let {
+            Box(modifier = Modifier.fillMaxSize()) {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    var anime : List<AnimeSeries> = emptyList()
+                    if (it != null) {
+                        anime = it
+                    };
+                    items(anime) { animeSeries ->
+                        AnimeSeriesItem(animeSeries, onClick = {
+                            navController.navigate("AnimeDetail/${animeSeries.id}")
+                        })
+                    }
+                }
 
-    Box(modifier = Modifier.fillMaxSize()) {
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            items(animeSeriesList) { animeSeries ->
-                AnimeSeriesItem(animeSeries, onClick = {
-                    navController.navigate("AnimeDetail/${animeSeries.id}")
-                })
+                FloatingActionButton(
+                    onClick = { animeSeriesViewModel.toggleDialog(true) },
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                        .padding(16.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Add,
+                        contentDescription = "Add New Series",
+                        tint = MaterialTheme.colorScheme.onPrimary
+                    )
+                }
+
+                if (animeSeriesViewModel.showDialog) {
+                    AddAnimeSeriesDialog(animeSeriesViewModel)
+                }
             }
         }
-
-        FloatingActionButton(
-            onClick = { animeSeriesViewModel.toggleDialog(true) },
-            containerColor = MaterialTheme.colorScheme.primary,
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(16.dp)
-        ) {
-            Icon(
-                imageVector = Icons.Default.Add,
-                contentDescription = "Add New Series",
-                tint = MaterialTheme.colorScheme.onPrimary
-            )
-        }
-
-        if (animeSeriesViewModel.showDialog) {
-            AddAnimeSeriesDialog(animeSeriesViewModel)
-        }
     }
+
 }
 
 @Composable
@@ -92,12 +103,13 @@ fun AnimeSeriesItem(animeSeries: AnimeSeries, onClick: () -> Unit) {
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Row(modifier = Modifier.padding(16.dp)) {
-            Image(
+
+            /*Image(
                 painter = painterResource(animeSeries.image),
                 contentDescription = "Image of ${animeSeries.title}",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.size(64.dp)
-            )
+            )*/
             Spacer(modifier = Modifier.width(16.dp))
             Column {
                 Text(

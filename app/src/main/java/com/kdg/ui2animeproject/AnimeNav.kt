@@ -62,7 +62,7 @@ fun AnimeAppBar(
 
 @Composable
 fun AnimeNav(
-    animeSeriesViewModel: AnimeSeriesViewModel = viewModel(),
+    animeSeriesViewModel: AnimeSeriesViewModel = viewModel(factory = AnimeSeriesViewModel.Factory),
     navController: NavHostController = rememberNavController()
 ) {
     val backStackEntry by navController.currentBackStackEntryAsState()
@@ -87,7 +87,7 @@ fun AnimeNav(
                 .padding(innerPadding)
         ) {
             composable(route = AnimeScreen.Start.name) {
-                StartScreen(navController = navController, animeSeriesViewModel = animeSeriesViewModel)
+                StartScreen(animeUiState = animeSeriesViewModel.animeUiState ,navController = navController, animeSeriesViewModel = animeSeriesViewModel)
             }
             composable(
                 route = "AnimeDetail/{animeSeriesId}",

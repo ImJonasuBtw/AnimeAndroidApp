@@ -1,7 +1,9 @@
 package com.kdg.ui2animeproject.model
 
 import androidx.annotation.DrawableRes
-import com.kdg.ui2animeproject.Data.AnimeDataSource.animeSeriesList
+import kotlinx.serialization.Serializable
+
+@Serializable
 
 data class AnimeSeries(
     val id: Int,
@@ -11,26 +13,8 @@ data class AnimeSeries(
     val studio: String,
     val averageRating: Double,
     val hasCompleted: Boolean,
-    @DrawableRes val image: Int
+   // @DrawableRes val image: Int
 )
 
 
-fun getAnimeSeries(): Array
-<AnimeSeries> {
-    return animeSeriesList.toTypedArray()
-}
 
-fun createAnimeSeries(animeSeries: AnimeSeries) {
-    animeSeriesList.add(animeSeries)
-}
-
-fun updateAnimeSeries(updatedAnimeSeries: AnimeSeries) {
-    val index = animeSeriesList.indexOfFirst { it.id == updatedAnimeSeries.id }
-    if (index != -1) {
-        animeSeriesList[index] = updatedAnimeSeries
-    }
-}
-
-fun deleteAnimeSeries(id: Int) {
-    animeSeriesList.removeAll { it.id == id }
-}
