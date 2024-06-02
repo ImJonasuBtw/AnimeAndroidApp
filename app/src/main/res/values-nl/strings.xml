@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">UI2AnimeProject</string>
+    <string name="app_name">Anime Applicatie</string>
     <string name="anime_genre">genre</string>
     <string name="anime_rating">Beoordeling</string>
     <string name="anime_characterAmount">Aantal Karakters</string>
@@ -10,4 +10,7 @@
     <string name="character_specialability">Speciale Kracht</string>
     <string name="anime_detail">Anime Detail</string>
     <string name="release_date">Datum Uitgekomen</string>
+    <string name="settings">instellingen</string>
+    <string name="settings_Dark_Theme">Shakel Donker Thema in</string>
+    <string name="settings_Additional_Info">Laat Extra informatie zien op het hoofdscherm</string>
 </resources>

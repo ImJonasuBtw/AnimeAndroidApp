@@ -62,14 +62,14 @@ fun StartScreen(
                         .padding(16.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    var anime : List<AnimeSeries> = emptyList()
+                    var anime: List<AnimeSeries> = emptyList()
                     if (it != null) {
                         anime = it
                     };
                     items(anime) { animeSeries ->
                         AnimeSeriesItem(animeSeries, onClick = {
                             navController.navigate("AnimeDetail/${animeSeries.id}")
-                        })
+                        },animeSeriesViewModel.isShowingAdditonalInfo.value)
                     }
                 }
 
@@ -97,7 +97,7 @@ fun StartScreen(
 }
 
 @Composable
-fun AnimeSeriesItem(animeSeries: AnimeSeries, onClick: () -> Unit) {
+fun AnimeSeriesItem(animeSeries: AnimeSeries, onClick: () -> Unit, isShowingAdditionalInfo: Boolean) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -105,12 +105,16 @@ fun AnimeSeriesItem(animeSeries: AnimeSeries, onClick: () -> Unit) {
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Row(modifier = Modifier.padding(16.dp)) {
+
+
             Image(
                 painter = rememberImagePainter(animeSeries.image),
                 contentDescription = "Image of ${animeSeries.title}",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.size(64.dp)
             )
+
+
             Spacer(modifier = Modifier.width(16.dp))
             Column {
                 Text(
@@ -118,14 +122,18 @@ fun AnimeSeriesItem(animeSeries: AnimeSeries, onClick: () -> Unit) {
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold
                 )
-                Text(
-                    text = stringResource(id = R.string.anime_genre) +" : ${animeSeries.genre}",
-                    style = MaterialTheme.typography.bodyMedium
-                )
-                Text(
-                    text = stringResource(id = R.string.anime_rating)+" : ${animeSeries.averageRating}",
-                    style = MaterialTheme.typography.bodyMedium
-                )
+                if (isShowingAdditionalInfo)
+                {
+                    Text(
+                        text = stringResource(id = R.string.anime_genre) + " : ${animeSeries.genre}",
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                    Text(
+                        text = stringResource(id = R.string.anime_rating) + " : ${animeSeries.averageRating}",
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+
             }
         }
     }

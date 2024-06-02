@@ -36,6 +36,8 @@ class AnimeSeriesViewModel @Inject constructor(private val animeRepository: Anim
     var showDialog by mutableStateOf(false)
     var showDeleteErrorDialog by mutableStateOf(false)
     var isEditing by mutableStateOf(false)
+    var isDarkTheme = mutableStateOf(false)
+    var isShowingAdditonalInfo = mutableStateOf(true)
 
     var id by mutableStateOf("")
     var title by mutableStateOf("")

@@ -64,7 +64,13 @@ fun AnimeDetailScreen(
     Log.d("animedetails", "Anime series: $animeSeries   AnimeId: $animeSeriesId")
 
     if (animeSeries == null) {
-        Log.d("animedetails", "Anime series not found.")
+        Text(
+            text = "Deleted :)",
+            style = MaterialTheme.typography.titleLarge,
+            color = MaterialTheme.colorScheme.primary,
+            fontWeight = FontWeight.ExtraBold,
+            modifier = Modifier.padding(16.dp)
+        )
         return
     }
 
