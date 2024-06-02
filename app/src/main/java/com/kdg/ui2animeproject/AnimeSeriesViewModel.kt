@@ -8,15 +8,14 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
 import com.kdg.ui2animeproject.data.AnimeRepository
 import com.kdg.ui2animeproject.model.AnimeSeries
 import com.kdg.ui2animeproject.model.Character
 import com.kdg.ui2animeproject.model.NewAnimeSeries
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 sealed interface AnimeUiState {
     object Loading : AnimeUiState
@@ -29,8 +28,8 @@ sealed interface AnimeUiState {
 
     ) : AnimeUiState
 }
-
-class AnimeSeriesViewModel(private val animeRepository: AnimeRepository) : ViewModel() {
+@HiltViewModel
+class AnimeSeriesViewModel @Inject constructor(private val animeRepository: AnimeRepository) : ViewModel() {
     var animeSeries by mutableStateOf(listOf<AnimeSeries>())
     var characters by mutableStateOf(listOf<Character>())
     var currentIndex by mutableIntStateOf(0)
@@ -38,13 +37,14 @@ class AnimeSeriesViewModel(private val animeRepository: AnimeRepository) : ViewM
     var showDeleteErrorDialog by mutableStateOf(false)
     var isEditing by mutableStateOf(false)
 
+    var id by mutableStateOf("")
     var title by mutableStateOf("")
     var genre by mutableStateOf("")
     var studio by mutableStateOf("")
     var releaseDate by mutableStateOf("")
     var rating by mutableDoubleStateOf(0.0)
     var completed by mutableStateOf(false)
-    var nextId = animeSeries.size + 1
+    var image by mutableStateOf("")
 
     var animeUiState: AnimeUiState by mutableStateOf(AnimeUiState.Loading)
         private set
@@ -98,16 +98,7 @@ class AnimeSeriesViewModel(private val animeRepository: AnimeRepository) : ViewM
         characters = newCharacters
     }
 
-    companion object {
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                val application =
-                    (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as AnimeApplication)
-                val animeRepository = application.container.animeRepository
-                AnimeSeriesViewModel(animeRepository = animeRepository)
-            }
-        }
-    }
+
 
     fun selectPrevious() {
         currentIndex = (currentIndex - 1 + animeSeries.size) % animeSeries.size
@@ -132,7 +123,7 @@ class AnimeSeriesViewModel(private val animeRepository: AnimeRepository) : ViewM
             studio = studio,
             averageRating = rating,
             hasCompleted = completed,
-            // image = R.drawable.placeholderimage
+            image = "https://i.pinimg.com/564x/35/a0/93/35a0936f2e954d352b918bd831d704af.jpg"
         )
 
         addAnimeSeries(newSeries)
@@ -160,7 +151,6 @@ class AnimeSeriesViewModel(private val animeRepository: AnimeRepository) : ViewM
     fun deleteAnimeSeriesById(animeSeriesId: String) {
         if (animeSeries.size > 1) {
             deleteAnimeSeries(animeSeriesId)
-            //currentIndex = currentIndex.coerceIn(0, animeSeries.size - 1)
             Log.d("AnimeViewModel", "Deleted Anime with Id: $animeSeriesId")
         } else {
             showDeleteErrorDialog = true
@@ -179,28 +169,29 @@ class AnimeSeriesViewModel(private val animeRepository: AnimeRepository) : ViewM
         }
     }
 
-    fun startEditing() {
-        val currentSeries = animeSeries[currentIndex]
+    fun startEditing(currentSeries: AnimeSeries) {
+        id= currentSeries.id
         title = currentSeries.title
         genre = currentSeries.genre
         studio = currentSeries.studio
         releaseDate = currentSeries.releaseDate
         rating = currentSeries.averageRating
         completed = currentSeries.hasCompleted
+        image = currentSeries.image
         isEditing = true
         Log.d("AnimeViewModel", "Editing started Anime Id: ${currentSeries.id}")
     }
 
     fun saveChanges() {
         val updatedAnimeSeries = AnimeSeries(
-            id = animeSeries[currentIndex].id,
+            id = id,
             title = title,
             releaseDate = releaseDate,
             genre = genre,
             studio = studio,
             averageRating = rating,
             hasCompleted = completed,
-            //image = animeSeries[currentIndex].image
+            image = image
         )
         updateAnimeSeries(updatedAnimeSeries)
         isEditing = false

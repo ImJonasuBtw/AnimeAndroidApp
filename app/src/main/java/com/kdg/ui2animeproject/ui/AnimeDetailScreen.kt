@@ -37,16 +37,19 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavBackStackEntry
+import coil.compose.rememberImagePainter
 import com.kdg.ui2animeproject.AnimeSeriesViewModel
 import com.kdg.ui2animeproject.R
+import com.kdg.ui2animeproject.model.AnimeSeries
 
 
 @Composable
 fun AnimeDetailScreen(
     backStackEntry: NavBackStackEntry,
-    animeSeriesViewModel: AnimeSeriesViewModel = viewModel(factory = AnimeSeriesViewModel.Factory)
+    animeSeriesViewModel: AnimeSeriesViewModel = hiltViewModel()
 ) {
     val animeSeriesId = backStackEntry.arguments?.getString("animeSeriesId")
 
@@ -81,15 +84,15 @@ fun AnimeDetailScreen(
                 fontWeight = FontWeight.ExtraBold,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
-            /* Image(
-                 painter = painterResource(series.image),
+             Image(
+                 painter = rememberImagePainter(series.image),
                  contentDescription = "Image of ${series.title}",
                  contentScale = ContentScale.Crop,
                  modifier = Modifier
                      .fillMaxWidth()
                      .padding(bottom = 8.dp)
                      .heightIn(max = 475.dp)
-             )*/
+             )
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
@@ -129,7 +132,7 @@ fun AnimeDetailScreen(
             )
 
             Row {
-                EditAnimeDialog(animeSeriesViewModel)
+                EditAnimeDialog(animeSeriesViewModel,series)
                 DeleteCurrentAnimeSeries(animeSeriesViewModel, series.id)
             }
 
@@ -220,9 +223,9 @@ fun DeleteCurrentAnimeSeries(viewModel: AnimeSeriesViewModel, animeSeriesId: Str
 }
 
 @Composable
-fun EditAnimeDialog(viewModel: AnimeSeriesViewModel) {
+fun EditAnimeDialog(viewModel: AnimeSeriesViewModel, se: AnimeSeries) {
     FloatingActionButton(
-        onClick = { viewModel.startEditing() },
+        onClick = { viewModel.startEditing(se) },
         modifier = Modifier.padding(horizontal = 10.dp, vertical = 8.dp),
         containerColor = MaterialTheme.colorScheme.primary
     ) {

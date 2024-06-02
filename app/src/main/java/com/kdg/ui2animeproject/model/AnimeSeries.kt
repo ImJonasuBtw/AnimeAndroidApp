@@ -1,6 +1,7 @@
 package com.kdg.ui2animeproject.model
 
 import androidx.annotation.DrawableRes
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -13,7 +14,7 @@ data class AnimeSeries(
     val studio: String,
     val averageRating: Double,
     val hasCompleted: Boolean,
-   // @DrawableRes val image: Int
+    @SerialName("image") val image: String,
 )
 
 

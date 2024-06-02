@@ -1,6 +1,36 @@
 {
   "animeSeries": [
     {
+      "id": "1",
+      "title": "Naruto",
+      "releaseDate": "2002-10-03",
+      "genre": "Action",
+      "studio": "Pierrot",
+      "averageRating": 8.2,
+      "hasCompleted": true,
+      "image": "https://i.pinimg.com/564x/3a/8c/63/3a8c63737ae2d94f9d4f09f477e3df34.jpg"
+    },
+    {
+      "id": "2",
+      "title": "Attack on Titan",
+      "releaseDate": "2013-04-07",
+      "genre": "Action",
+      "studio": "Wit Studio",
+      "averageRating": 8.8,
+      "hasCompleted": true,
+      "image": "https://i.pinimg.com/564x/c4/cb/57/c4cb5734c7c94d3413efdaa3bca09a6d.jpg"
+    },
+    {
+      "id": "3",
+      "title": "My Hero Academia",
+      "releaseDate": "2016-04-03",
+      "genre": "Superhero",
+      "studio": "Bones",
+      "averageRating": 8.5,
+      "hasCompleted": false,
+      "image": "https://i.pinimg.com/564x/c9/e2/65/c9e265d73f71e7690d3d8e5739ac531a.jpg"
+    },
+    {
       "id": "4",
       "title": "One Piece",
       "releaseDate": "1999-10-20",
@@ -119,24 +149,6 @@
       "averageRating": 8.5,
       "hasCompleted": true,
       "image": "https://i.pinimg.com/564x/13/a9/6b/13a96b03c3e1d60bb526fe4de5c8a16b.jpg"
-    },
-    {
-      "id": "4b45",
-      "title": "Test",
-      "releaseDate": "a",
-      "genre": "a",
-      "studio": "a",
-      "averageRating": 0,
-      "hasCompleted": true
-    },
-    {
-      "id": "aa96",
-      "title": "My He",
-      "releaseDate": "2016-04-03",
-      "genre": "Superhero",
-      "studio": "Bones",
-      "averageRating": 8.5,
-      "hasCompleted": false
     }
   ],
   "characters": [

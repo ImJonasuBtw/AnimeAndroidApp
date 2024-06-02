@@ -36,8 +36,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import coil.compose.rememberImagePainter
 import com.kdg.ui2animeproject.AnimeSeriesViewModel
 import com.kdg.ui2animeproject.AnimeUiState
 import com.kdg.ui2animeproject.R
@@ -47,7 +49,7 @@ import com.kdg.ui2animeproject.model.AnimeSeries
 fun StartScreen(
     animeUiState: AnimeUiState,
     navController: NavController,
-    animeSeriesViewModel: AnimeSeriesViewModel = viewModel(factory = AnimeSeriesViewModel.Factory)
+    animeSeriesViewModel: AnimeSeriesViewModel = hiltViewModel()
 ) {
     when (animeUiState) {
         is AnimeUiState.Loading -> Text("Loading")
@@ -103,13 +105,12 @@ fun AnimeSeriesItem(animeSeries: AnimeSeries, onClick: () -> Unit) {
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Row(modifier = Modifier.padding(16.dp)) {
-
-            /*Image(
-                painter = painterResource(animeSeries.image),
+            Image(
+                painter = rememberImagePainter(animeSeries.image),
                 contentDescription = "Image of ${animeSeries.title}",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.size(64.dp)
-            )*/
+            )
             Spacer(modifier = Modifier.width(16.dp))
             Column {
                 Text(

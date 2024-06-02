@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -62,7 +63,7 @@ fun AnimeAppBar(
 
 @Composable
 fun AnimeNav(
-    animeSeriesViewModel: AnimeSeriesViewModel = viewModel(factory = AnimeSeriesViewModel.Factory),
+    animeSeriesViewModel: AnimeSeriesViewModel = hiltViewModel(),
     navController: NavHostController = rememberNavController()
 ) {
     val backStackEntry by navController.currentBackStackEntryAsState()
