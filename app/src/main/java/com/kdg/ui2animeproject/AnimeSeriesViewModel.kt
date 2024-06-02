@@ -10,12 +10,12 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.kdg.ui2animeproject.data.AnimeRepository
 import com.kdg.ui2animeproject.model.AnimeSeries
 import com.kdg.ui2animeproject.model.Character
+import com.kdg.ui2animeproject.model.NewAnimeSeries
 import kotlinx.coroutines.launch
 
 sealed interface AnimeUiState {
@@ -61,7 +61,7 @@ class AnimeSeriesViewModel(private val animeRepository: AnimeRepository) : ViewM
                 Log.d("AnimeViewModel", "AnimeSeries fetched: $result")
                 if (result.isNotEmpty()) {
                     animeUiState = AnimeUiState.Success(animes = result)
-                    updateAnimeSeries(result)
+                    updateAnimeSeriesList(result)
                 } else {
                     animeUiState = AnimeUiState.Error
                 }
@@ -72,7 +72,7 @@ class AnimeSeriesViewModel(private val animeRepository: AnimeRepository) : ViewM
         }
     }
 
-    private fun updateAnimeSeries(newAnimeSeries: List<AnimeSeries>) {
+    private fun updateAnimeSeriesList(newAnimeSeries: List<AnimeSeries>) {
         animeSeries = newAnimeSeries
     }
 
@@ -83,7 +83,7 @@ class AnimeSeriesViewModel(private val animeRepository: AnimeRepository) : ViewM
                 Log.d("AnimeViewModel", "Characters fetched: $result")
                 if (result.isNotEmpty()) {
                     animeUiState = AnimeUiState.Success(characters = result)
-                    updateCharacters(result)
+                    updateCharactersList(result)
                 } else {
                     animeUiState = AnimeUiState.Error
                 }
@@ -94,7 +94,7 @@ class AnimeSeriesViewModel(private val animeRepository: AnimeRepository) : ViewM
         }
     }
 
-    private fun updateCharacters(newCharacters: List<Character>) {
+    private fun updateCharactersList(newCharacters: List<Character>) {
         characters = newCharacters
     }
 
@@ -109,15 +109,15 @@ class AnimeSeriesViewModel(private val animeRepository: AnimeRepository) : ViewM
         }
     }
 
-    /*    fun selectPrevious() {
-            currentIndex = (currentIndex - 1 + animeSeries.size) % animeSeries.size
-            Log.d("AnimeViewModel", "Previous Anime with Index: $currentIndex")
-        }
+    fun selectPrevious() {
+        currentIndex = (currentIndex - 1 + animeSeries.size) % animeSeries.size
+        Log.d("AnimeViewModel", "Previous Anime with Index: $currentIndex")
+    }
 
-        fun selectNext() {
-            currentIndex = (currentIndex + 1) % animeSeries.size
-            Log.d("AnimeViewModel", "Next Anime with Index: $currentIndex")
-        }*/
+    fun selectNext() {
+        currentIndex = (currentIndex + 1) % animeSeries.size
+        Log.d("AnimeViewModel", "Next Anime with Index: $currentIndex")
+    }
 
     fun toggleDialog(show: Boolean) {
         showDialog = show
@@ -125,8 +125,7 @@ class AnimeSeriesViewModel(private val animeRepository: AnimeRepository) : ViewM
     }
 
     fun createNewAnimeSeries() {
-        val newSeries = AnimeSeries(
-            id = nextId,
+        val newSeries = NewAnimeSeries(
             title = title,
             releaseDate = releaseDate,
             genre = genre,
@@ -135,7 +134,6 @@ class AnimeSeriesViewModel(private val animeRepository: AnimeRepository) : ViewM
             hasCompleted = completed,
             // image = R.drawable.placeholderimage
         )
-        nextId++
 
         addAnimeSeries(newSeries)
 
@@ -145,10 +143,10 @@ class AnimeSeriesViewModel(private val animeRepository: AnimeRepository) : ViewM
         releaseDate = ""
         rating = 0.0
         completed = false
-        Log.d("AnimeViewModel", "New Anime added: Title: $title, Id: ${newSeries.id}")
+        Log.d("AnimeViewModel", "New Anime added: Title: $title, Id: ${newSeries.title}")
     }
 
-    private fun addAnimeSeries(newSeries: AnimeSeries) {
+    private fun addAnimeSeries(newSeries: NewAnimeSeries) {
         viewModelScope.launch {
             try {
                 animeRepository.createAnimeSeries(newSeries)
@@ -159,15 +157,25 @@ class AnimeSeriesViewModel(private val animeRepository: AnimeRepository) : ViewM
         }
     }
 
-    fun deleteAnimeSeriesById(animeSeriesId: Int) {
+    fun deleteAnimeSeriesById(animeSeriesId: String) {
         if (animeSeries.size > 1) {
-            // deleteAnimeSeries(animeSeriesId)
-            //animeSeries = getAnimeSeries()
-            currentIndex = currentIndex.coerceIn(0, animeSeries.size - 1)
+            deleteAnimeSeries(animeSeriesId)
+            //currentIndex = currentIndex.coerceIn(0, animeSeries.size - 1)
             Log.d("AnimeViewModel", "Deleted Anime with Id: $animeSeriesId")
         } else {
             showDeleteErrorDialog = true
             Log.d("AnimeViewModel", "Deletion not allowed: Only one series left.")
+        }
+    }
+
+    private fun deleteAnimeSeries(animeSeriesId: String) {
+        viewModelScope.launch {
+            try {
+                animeRepository.deleteAnimeSeries(animeSeriesId)
+                getAnimeSeries()
+            } catch (e: Exception) {
+                Log.e("AnimeViewModel", "Error deleting AnimeSeries", e)
+            }
         }
     }
 
@@ -194,10 +202,20 @@ class AnimeSeriesViewModel(private val animeRepository: AnimeRepository) : ViewM
             hasCompleted = completed,
             //image = animeSeries[currentIndex].image
         )
-        // updateAnimeSeries(updatedAnimeSeries)
-        // animeSeries = getAnimeSeries()
+        updateAnimeSeries(updatedAnimeSeries)
         isEditing = false
         Log.d("AnimeViewModel", "Changes saved, Anime Id: ${updatedAnimeSeries.id}")
+    }
+
+    private fun updateAnimeSeries(updatedAnimeSeries: AnimeSeries) {
+        viewModelScope.launch {
+            try {
+                animeRepository.updateAnineSeries(updatedAnimeSeries)
+                getAnimeSeries()
+            } catch (e: Exception) {
+                Log.e("AnimeViewModel", "Error updating AnimeSeries", e)
+            }
+        }
     }
 
     fun cancelEditing() {
@@ -205,8 +223,8 @@ class AnimeSeriesViewModel(private val animeRepository: AnimeRepository) : ViewM
         Log.d("AnimeViewModel", "Editing cancelled, Anime Id: ")
     }
 
-    fun countCharactersByAnimeSeriesId(id: Int): String {
-        val count = characters.filter { it.animeSerieId == id }.size
+    fun countCharactersByAnimeSeriesId(id: String): String {
+        val count = characters.filter { it.animeSerieId.toString() == id }.size
         return count.toString()
     }
 }

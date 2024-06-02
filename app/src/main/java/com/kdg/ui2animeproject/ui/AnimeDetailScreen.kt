@@ -46,9 +46,9 @@ import com.kdg.ui2animeproject.R
 @Composable
 fun AnimeDetailScreen(
     backStackEntry: NavBackStackEntry,
-    animeSeriesViewModel: AnimeSeriesViewModel = viewModel()
+    animeSeriesViewModel: AnimeSeriesViewModel = viewModel(factory = AnimeSeriesViewModel.Factory)
 ) {
-    val animeSeriesId = backStackEntry.arguments?.getInt("animeSeriesId")
+    val animeSeriesId = backStackEntry.arguments?.getString("animeSeriesId")
 
     Log.d("AnimeDetailScreen", "Arguments: ${backStackEntry.arguments}")
 
@@ -135,7 +135,7 @@ fun AnimeDetailScreen(
 
 
             val characters = animeSeriesViewModel.characters.filter {
-                val b = it.animeSerieId == series.id
+                val b = it.animeSerieId.toString() == series.id
                 b
             }
             LazyRow(
@@ -205,7 +205,7 @@ fun AnimeDetailScreen(
 
 
 @Composable
-fun DeleteCurrentAnimeSeries(viewModel: AnimeSeriesViewModel, animeSeriesId: Int) {
+fun DeleteCurrentAnimeSeries(viewModel: AnimeSeriesViewModel, animeSeriesId: String) {
     Button(
         onClick = { viewModel.deleteAnimeSeriesById(animeSeriesId) },
         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error),

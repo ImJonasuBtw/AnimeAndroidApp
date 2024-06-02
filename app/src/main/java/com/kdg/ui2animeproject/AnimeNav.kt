@@ -91,7 +91,7 @@ fun AnimeNav(
             }
             composable(
                 route = "AnimeDetail/{animeSeriesId}",
-                arguments = listOf(navArgument("animeSeriesId") { type = NavType.IntType })
+                arguments = listOf(navArgument("animeSeriesId") { type = NavType.StringType })
             ) { backStackEntry ->
                 AnimeDetailScreen(
                     backStackEntry = backStackEntry,

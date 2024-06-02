@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 
 data class AnimeSeries(
-    val id: Int,
+    val id: String,
     val title: String,
     val releaseDate: String,
     val genre: String,
